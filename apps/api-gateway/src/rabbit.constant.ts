@@ -1,0 +1,17 @@
+export enum RabbitMQQueueNames {
+  PRODUCTS_QUEUE = 'products_queue',
+  COMMENTS_QUEUE = 'comments_queue',
+}
+
+export enum RabbitMQQueueComments {
+  CREATE_COMMENTS = 'CREATE_COMMENTS',
+  FIND_COMMENT_BY_ID = 'FIND_COMMENT_BY_ID',
+}
+
+export enum RabbitMQQueueProducts {
+  CREATE_PRODUCTS = 'CREATE_PRODUCTS',
+  FIND_ALL_PRODUCTS = 'FIND_ALL_PRODUCTS',
+  FIND_PRODUCT_BY_ID = 'FIND_PRODUCT_BY_ID',
+  UPDATE_PRODUCT = 'UPDATE_PRODUCT',
+  DELETE_PRODUCT = 'DELETE_PRODUCT',
+}
