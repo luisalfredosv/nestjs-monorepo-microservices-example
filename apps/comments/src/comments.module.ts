@@ -1,18 +1,26 @@
-import { Module, Type } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { CommentsController } from './controllers/comments.controller';
 import { CommentsService } from './services/comments.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommentSchema } from './schemas/comment.schema';
-import { join } from 'path';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mongodb',
-      url: 'mongodb+srv://root:G4aM4ZLDR4XiiZMw@cluster0.33www2j.mongodb.net',
-      database: 'ecommerce',
-      entities: [CommentSchema],
-      retryWrites: true,
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mongodb',
+        url: configService.get<string>('DB_URI'),
+        database: configService.get<string>('DB_NAME'),
+        entities: [CommentSchema],
+        retryWrites: true,
+      }),
+      inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([CommentSchema]),
   ],

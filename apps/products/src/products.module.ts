@@ -2,17 +2,25 @@ import { Module } from '@nestjs/common';
 import { ProductsController } from './controllers/products.controller';
 import { ProductsService } from './services/products.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { join } from 'path';
 import { ProductSchema } from './schemas/product.schema';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mongodb',
-      url: 'mongodb+srv://root:G4aM4ZLDR4XiiZMw@cluster0.33www2j.mongodb.net',
-      database: 'ecommerce',
-      entities: [ProductSchema],
-      retryWrites: true,
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mongodb',
+        url: configService.get<string>('DB_URI'),
+        database: configService.get<string>('DB_NAME'),
+        entities: [ProductSchema],
+        retryWrites: true,
+      }),
+      inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([ProductSchema]),
   ],
