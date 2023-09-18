@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ProductsModule } from './products.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { RABBIT_MQ_QUEUE } from './microservice.constant';
+import { RabbitMQQueueNames } from '@libs/enums/queue-microservices.enum';
 import { HttpToRpcExceptionFilter } from '@libs/filters/http-to-rpc-exception.filter';
 import { ConfigService } from '@nestjs/config';
 
@@ -15,7 +15,7 @@ async function bootstrap() {
       transport: Transport.RMQ,
       options: {
         urls: [msgTransporterURI],
-        queue: RABBIT_MQ_QUEUE,
+        queue: RabbitMQQueueNames.PRODUCTS_QUEUE,
         queueOptions: {
           durable: false,
         },

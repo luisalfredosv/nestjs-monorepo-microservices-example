@@ -6,7 +6,7 @@ export class CommentSchema {
   _id: string;
 
   @Column()
-  product_id?: string;
+  product_id: string;
 
   @Column()
   text: string;

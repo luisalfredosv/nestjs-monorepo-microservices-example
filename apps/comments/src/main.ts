@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { CommentsModule } from './comments.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
+import { RabbitMQQueueNames } from '@libs/enums/queue-microservices.enum';
 import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
@@ -14,7 +15,7 @@ async function bootstrap() {
       transport: Transport.RMQ,
       options: {
         urls: [msgTransporterURI],
-        queue: 'comments_queue',
+        queue: RabbitMQQueueNames.COMMENTS_QUEUE,
         queueOptions: {
           durable: false,
         },

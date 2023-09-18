@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { MongoRepository } from 'typeorm';
 import { ProductSchema } from '../schemas/product.schema';
 import { ObjectId } from 'mongodb';
-import { RpcException } from '@nestjs/microservices';
 
 @Injectable()
 export class ProductsService {
@@ -31,15 +30,11 @@ export class ProductsService {
 
   async findOne(id: string) {
     try {
-      const product = await this.productRepository.findOne({
+      return await this.productRepository.findOne({
         where: {
           _id: new ObjectId(id),
         },
       });
-
-      if (!product) throw new NotFoundException(`Producto no encontrado`);
-
-      return product;
     } catch (error) {
       throw error;
     }

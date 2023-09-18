@@ -2,14 +2,17 @@ import { NestFactory } from '@nestjs/core';
 import { ApiGatewayModule } from './api-gateway.module';
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { CustomRpcExceptionFilter } from './common/filters/rpc-exception.filter';
 import { ConfigService } from '@nestjs/config';
 import { swaggerConfig } from './config/swagger.config';
 
 async function bootstrap() {
   const logger = new Logger();
-  const app = await NestFactory.create(ApiGatewayModule);
+  const app = await NestFactory.create(ApiGatewayModule, {
+    abortOnError: false,
+    bufferLogs: true,
+  });
 
   const configService = app.get(ConfigService);
 
@@ -19,6 +22,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.useGlobalInterceptors(new TimeoutInterceptor());
   app.useGlobalFilters(new CustomRpcExceptionFilter());
+  app.useGlobalPipes(new ValidationPipe());
 
   swaggerConfig(app, isProduction);
 

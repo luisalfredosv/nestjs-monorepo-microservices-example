@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CommentsController } from './controllers/comments.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { RabbitMQQueueNames } from '../../rabbit.constant';
+import { RabbitMQQueueNames } from '@libs/enums/queue-microservices.enum';
 import { CommentsService } from './services/comments.service';
 
 @Module({

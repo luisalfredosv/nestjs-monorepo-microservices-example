@@ -21,6 +21,7 @@ export class CustomRpcExceptionFilter implements ExceptionFilter<RpcException> {
     if (typeof error === 'object') {
       const { error: err } = error as ICustomRpcErrorInterface;
       return response.status(err.status).json({
+        statusCode: err.status,
         message: err.description,
         error: err.error,
       });
@@ -28,6 +29,7 @@ export class CustomRpcExceptionFilter implements ExceptionFilter<RpcException> {
 
     if (typeof error === 'string') {
       return response.status(500).json({
+        statusCode: 500,
         message: 'Ocurrió un error inesperado',
         error: 'Internal Server Error',
       });

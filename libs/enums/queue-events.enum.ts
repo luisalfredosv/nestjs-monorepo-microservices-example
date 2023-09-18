@@ -1,11 +1,7 @@
-export enum RabbitMQQueueNames {
-  PRODUCTS_QUEUE = 'products_queue',
-  COMMENTS_QUEUE = 'comments_queue',
-}
-
 export enum RabbitMQQueueComments {
   CREATE_COMMENTS = 'CREATE_COMMENTS',
   FIND_COMMENT_BY_ID = 'FIND_COMMENT_BY_ID',
+  FIND_ALL_COMMENTS_BY_PRODUCT_ID = 'FIND_ALL_COMMENTS_BY_PRODUCT_ID',
 }
 
 export enum RabbitMQQueueProducts {
