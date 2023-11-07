@@ -7,6 +7,7 @@ import {
   RabbitMQQueueProducts,
 } from '@libs/enums/queue-events.enum';
 import { ParamsDto } from '@libs/dto/params.dto';
+import { UpdateCommentDto } from '../dto/update-comment.dto';
 
 @Injectable()
 export class CommentsService {
@@ -56,6 +57,35 @@ export class CommentsService {
       );
 
       return findComments;
+    } catch (error) {
+      throw new RpcException(error);
+    }
+  }
+
+  async updateComment(
+    paramsDto: ParamsDto,
+    createCommentDto: UpdateCommentDto,
+  ) {
+    try {
+      const { id } = paramsDto;
+
+      return await lastValueFrom(
+        this.clientsComments.send(RabbitMQQueueComments.UPDATE_COMMENT, {
+          id,
+          ...createCommentDto,
+        }),
+      );
+    } catch (error) {
+      throw new RpcException(error);
+    }
+  }
+
+  async deleteComment(paramsDto: ParamsDto) {
+    try {
+      const { id } = paramsDto;
+      return await lastValueFrom(
+        this.clientsComments.send(RabbitMQQueueComments.DELETE_COMMENT, id),
+      );
     } catch (error) {
       throw new RpcException(error);
     }

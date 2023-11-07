@@ -8,7 +8,7 @@ import { CommentSchema } from '../schemas/comment.schema';
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
-  @MessagePattern(RabbitMQQueueComments.CREATE_COMMENTS)
+  @EventPattern(RabbitMQQueueComments.CREATE_COMMENTS)
   async create(@Body() data: CommentSchema) {
     return await this.commentsService.create(data);
   }
@@ -21,5 +21,15 @@ export class CommentsController {
   @EventPattern(RabbitMQQueueComments.FIND_ALL_COMMENTS_BY_PRODUCT_ID)
   async getAllCommentsByProductId(@Payload() id: string) {
     return await this.commentsService.getAllCommentsByProductId(id);
+  }
+
+  @EventPattern(RabbitMQQueueComments.UPDATE_COMMENT)
+  async update(@Payload() data: any) {
+    return await this.commentsService.update(data);
+  }
+
+  @EventPattern(RabbitMQQueueComments.DELETE_COMMENT)
+  async delete(@Payload() id: string) {
+    return await this.commentsService.delete(id);
   }
 }

@@ -11,6 +11,7 @@ import { CreateCommentDto } from '../dto/create-comment.dto';
 import { CommentsService } from '../services/comments.service';
 import { ApiTags } from '@nestjs/swagger';
 import { ParamsDto } from '@libs/dto/params.dto';
+import { UpdateCommentDto } from '../dto/update-comment.dto';
 
 @ApiTags('comments')
 @Controller('comments')
@@ -28,8 +29,15 @@ export class CommentsController {
   }
 
   @Patch(':id')
-  async updateComment() {}
+  async updateComment(
+    @Param() paramsDto: ParamsDto,
+    @Body() body: UpdateCommentDto,
+  ) {
+    return await this.commentsService.updateComment(paramsDto, body);
+  }
 
   @Delete(':id')
-  async deleteComment() {}
+  async deleteComment(@Param() paramsDto: ParamsDto) {
+    return await this.commentsService.deleteComment(paramsDto);
+  }
 }

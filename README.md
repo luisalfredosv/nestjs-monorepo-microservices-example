@@ -57,13 +57,32 @@ $ yarn run test:cov
 
 ## Custom CLI
 
+### create files in project, go to api-gateway or microservices "src/" example: go to apps\api-gateway\src an execute
+
 ```bash
+# generate DTO
+nest g cl modules/ratings/dto/create-rating.dto --no-spec
 
-# create services in api-gateway go to apps\api-gateway\src an execute
-nest g s modules/products/services/products --flat
+# generate entity
+nest g cl modules/categories/entities/category.entity --no-spec --flat
 
+# generate service
+nest g s modules/core/shared/services/email --flat
 
+# generate controller
+nest g co modules/authors/controllers/authors --flat
 
+# generate repository
+nest g pr modules/products/repositories/products.repository --flat
+
+# generate module
+nest g mo modules/ratings
+
+# generate jobs
+nest g pr modules/ratings/jobs/ratings-indicators.job --flat --no-spec
+
+# generate uses case
+nest g pr modules/auth/use-cases/email-verification.use-case --flat --no-spec
 ```
 
 ## Support
